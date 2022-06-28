@@ -3,10 +3,10 @@ Shader "Custom/BRDF/LambertMVP"
     Properties
     {
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
-        _L("L", Vector) = (0, 0, 0, 0)
-        _M("M", Vector) = (0, 0, 0, 0)
-        _V("V", Vector) = (0, 0, 0, 0)
-        _P("P", Vector) = (0, 0, 0, 0)
+        _L("Local (Object)", Vector) = (0, 0, 0, 0)
+        _M("Model (World)", Vector) = (0, 0, 0, 0)
+        _V("View (Camera)", Vector) = (0, 0, 0, 0)
+        _P("Projection (Clip)", Vector) = (0, 0, 0, 0)
     }
     SubShader
     {
