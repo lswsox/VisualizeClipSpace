@@ -3,6 +3,7 @@ Shader "Custom/BRDF/LambertMVP"
     Properties
     {
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
+
         _L("Local (Object)", Vector) = (0, 0, 0, 0)
         _M("Model (World)", Vector) = (0, 0, 0, 0)
         _V("View (Camera)", Vector) = (0, 0, 0, 0)
@@ -37,6 +38,7 @@ Shader "Custom/BRDF/LambertMVP"
 
             TEXTURE2D(_BaseMap);
             SAMPLER(sampler_BaseMap);
+
             float4 _L;
             float4 _M;
             float4 _V;
@@ -49,14 +51,14 @@ Shader "Custom/BRDF/LambertMVP"
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
-                //OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
-                IN.positionOS += _L;
+
+                IN.positionOS += _L; // 오브젝트 공간에 개입
                 float4 posWS = mul(UNITY_MATRIX_M, IN.positionOS); // M
-                posWS += _M;
+                posWS += _M; // 월드 공간에 개입
                 float4 posVS = mul(UNITY_MATRIX_V, posWS); // V
-                posVS += _V;
+                posVS += _V; // 뷰(카메라) 공간에 개입
                 OUT.positionHCS = mul(UNITY_MATRIX_P, posVS); // P
-                OUT.positionHCS += _P;
+                OUT.positionHCS += _P; // 클립 공간에 개입
 
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 OUT.normal = TransformObjectToWorldNormal(IN.normalOS);
